@@ -43,10 +43,20 @@ button{
     margin: 0px auto;
     margin-top:200px;
     height:150px;
-    padding:20px;
+    padding:15px;
     text-align: right;
 }
 
 .row1{
     margin-top:25px;
+}
+.topAns{
+    margin-top:10px;
+    margin-bottom:12px;
+    height:50px;
+    font-size: 40px;
+}
+.bottomAns{
+    height:40px;
+    font-size: 30px;
 }
