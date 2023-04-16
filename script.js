@@ -1,4 +1,4 @@
-function operation(x,y,op){
+function gettingValues(x,y,op = ""){
     switch(op){
         case "+":
             return x + y;
@@ -7,108 +7,74 @@ function operation(x,y,op){
             return x - y;
             break;
         case "x":
-            return x * y;
+            if(!num){return ans}
+            else{return x * y;}
             break;
         case "/":
-            return x / y;
+            if(!num){return ans}
+            else{return x / y;}
             break;
         case "^":
             return Math.pow(x,y)
             break;
+        case "":
+            return num;
+            break;
     }
 }
 
-//to get two numbers(x,y) and an operator(op) 
-function operate(x = "",y = "",op = ""){
-    const btn = document.querySelectorAll("button")
-    let num = "";
-    //to decide wheater top or bottom dispaly
-    let TopOrBottom;
-    //to check for multiple operations
-    let noOfOp = 0;
-    let x1=0;
-
-    btn.forEach((n) => n.addEventListener("click",function(){
-        // to remove last element entered
-        if(this.textContent == "="){ 
-            y = num;
-            
-            //push the operation into an array
-            allOperationArr.push(new OneOperation(x1,y,op));
-            //to display the final ans
-            display(x,y,op,1,x1)
-
-            TopOrBottom = 0;
-            noOfOp = 0;
-            //to continue the operation
-            num = allOperationArr[allOperationArr.length - 1].ans;
-             x = y = op = "";
-        }else if(!Number.isInteger(+this.textContent) && noOfOp > 0 && this.textContent != "."){
-            op = this.textContent;
-            x = document.querySelector(".topAns").textContent;
-            num = "";
-            TopOrBottom = 1;
-            x1 = document.querySelector(".bottomAns").textContent;
-        }
-        else if(!Number.isInteger(+this.textContent) && this.textContent != "."){  //checking if user clicked an operator
-            op = this.textContent;
-            x = num;
-            num = "";
-            TopOrBottom = 1;
-            noOfOp ++;
-            x1=x;
-
-        }
-        else{
-            num += this.textContent;
-            TopOrBottom = 1;
-        }
-        
-        //to display ans in display area
-        if(!op && TopOrBottom){
-            display(num,y,op,0,x1)
-        }else if(op && TopOrBottom){
-            display(x,num,op,0,x1)
-        }
-
-        //to display the operation
-        //console.log(num, x, y, op)        
-    }))
+function operate(){
+    const btns = document.querySelectorAll("button");
+    btns.forEach((n) => n.addEventListener(("click"),findingValues))
 }
 
-//creating an object for one operation
-function OneOperation(x, y, op){
-    this.num1 = x;
-    this.num2 = y;
-    this.ans = Math.round(operation(+x,+y,op) * 10000) / 10000
+//getting each step and passing it to an array of objects
+function findingValues(){
+    operation += this.textContent;
+    //checking for operator
+    if(!(+this.textContent == +this.textContent)){
+        if(this.textContent == "="){
+            operation = ans;
+            finalAns = ans;
+            operator = num = "";
+        }else{
+            operator = this.textContent;
+            finalAns = ans;
+            num = "";
+        }
+    }else{
+        num += this.textContent;
+    }
+    
+    ans = gettingValues(+finalAns,+num,operator);
+    
+
+
+    //array of operation
+    allOperationsArr.push(new OneOperation(operation,operator,num,ans))
+    console.table(allOperationsArr)
+    display();
+
 }
 
 
-//to display the operations in display area
-function display(x,y,op,n = 0,x1=x){
-    const topAns = document.querySelector(".topAns");
+
+//objects for each step
+function OneOperation(operation,operator,num,ans){
+    this.operation = operation;
+    this.operator = operator;
+    this.num = num;
+    this.ans = ans;
+}
+
+function display(){
+    const topAns = document.querySelector(".topAns")
     const bottomAns = document.querySelector(".bottomAns")
-
-    //to erase everything and display final ans
-    if(n != 0){
-        topAns.textContent = `${allOperationArr[allOperationArr.length - 1].ans}`;
-        bottomAns.textContent = "";
-    }else if(n == 0){
-        if(op!= "CLEAR"){
-            if(x == "" ){x = "0"}
-            topAns.textContent = `${x}${op}${y}`;
-        }
-        //to display bottom ans(partial ans)
-        if(y){
-            bottomAns.textContent = `${Math.round(operation(+x1,+y,op) * 10000) / 10000}`
-        }
-    }
+    topAns.textContent = allOperationsArr[allOperationsArr.length - 1].operation;
+    bottomAns.textContent = allOperationsArr[allOperationsArr.length - 1].ans;
 }
 
+let operation = operator = num = ans = finalAns = "";
+allOperationsArr = [];
 
-//to refresh the calculator 
-document.querySelector(".clear").addEventListener("click",() => window.location.reload())
-//an array containing objects of operations
-allOperationArr = [];
 operate();
-
