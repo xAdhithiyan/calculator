@@ -25,12 +25,19 @@ function operate(x = "",y = "",op = ""){
             x = num;
             op = this.textContent;
             num = "";
-        }else{
+        }
+        else{
             num += this.textContent;
         }
-        console.log(num, x, y, op)
-        
-        
+
+        //to display partial answer
+        if(op && num){
+            console.log(operation(+x,+num,op))
+        }
+
+        //to display the operatiosn
+        display(x,y,op);
+        console.log(num, x, y, op)        
     }))
 }
 
@@ -42,9 +49,7 @@ function OneOperation(x, y, op){
 }
 
 
-
-
-
 //an array containing objects of operations
 allOperationArr = [];
 operate();
+
