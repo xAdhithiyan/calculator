@@ -41,9 +41,10 @@ function findingValues(){
     //checking for operator
     if(!(+this.textContent == +this.textContent)){
         if(this.textContent == "."){
-            operator = ".";
+            operator = "."; 
         }
         else if(this.textContent == "="){
+            display(); // dummy function just to remove the bottom ans
             operation = finalAns = num = ans;
             operator = "=";
         }else{
@@ -56,7 +57,7 @@ function findingValues(){
     }
 
 
-    ans = gettingValues(+finalAns,+num,operator);
+    ans = Math.round(gettingValues(+finalAns,+num,operator) * 100000) / 100000;
     
 
 
@@ -81,8 +82,11 @@ function display(){
     const topAns = document.querySelector(".topAns")
     const bottomAns = document.querySelector(".bottomAns")
     topAns.textContent = allOperationsArr[allOperationsArr.length - 1].operation;
-    bottomAns.textContent = allOperationsArr[allOperationsArr.length - 1].ans;
-
+    if(operator){
+        bottomAns.textContent = allOperationsArr[allOperationsArr.length - 1].ans;
+    }else{
+        bottomAns.textContent = "";
+    }
 }
 
 function dotButton(){
