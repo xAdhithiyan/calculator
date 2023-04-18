@@ -20,6 +20,16 @@ function gettingValues(x,y,op = ""){
         case "":
             return num;
             break;
+        case "=":
+            operator = "";
+            return ans;
+            break;
+        case ".":
+            operator = allOperationsArr[allOperationsArr.length - 1].operator;
+            num = num + ".";
+            ans = ans + ".";
+            return (ans);
+            break;
     }
 }
 
@@ -33,10 +43,13 @@ function findingValues(){
     operation += this.textContent;
     //checking for operator
     if(!(+this.textContent == +this.textContent)){
-        if(this.textContent == "="){
-            operation = ans;
+        if(this.textContent == "."){
+            operator = ".";
             finalAns = ans;
-            operator = num = "";
+        }
+        else if(this.textContent == "="){
+            operation = finalAns = num = ans;
+            operator = "=";
         }else{
             operator = this.textContent;
             finalAns = ans;
@@ -45,7 +58,8 @@ function findingValues(){
     }else{
         num += this.textContent;
     }
-    
+
+
     ans = gettingValues(+finalAns,+num,operator);
     
 
@@ -72,6 +86,7 @@ function display(){
     const bottomAns = document.querySelector(".bottomAns")
     topAns.textContent = allOperationsArr[allOperationsArr.length - 1].operation;
     bottomAns.textContent = allOperationsArr[allOperationsArr.length - 1].ans;
+
 }
 
 let operation = operator = num = ans = finalAns = "";
