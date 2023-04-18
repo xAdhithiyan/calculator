@@ -32,7 +32,12 @@ function gettingValues(x,y,op = ""){
 
 function operate(){
     const btns = document.querySelectorAll("button");
-    btns.forEach((n) => n.addEventListener(("click"),findingValues))
+    btns.forEach((n) => n.addEventListener(("click"),findingValues));
+    backspace();
+    //to clear the window
+    document.querySelector(".clear").removeEventListener("click",findingValues);
+    document.querySelector(".clear").addEventListener("click",reset);
+
 }
 
 //getting each step and passing it to an array of objects
@@ -41,7 +46,10 @@ function findingValues(){
     //checking for operator
     if(!(+this.textContent == +this.textContent)){
         if(this.textContent == "."){
-            operator = "."; 
+            operator = ".";
+            //only able to use the "." once -> removing the event listener
+            let btn = document.querySelector(".decimal")
+            btn.removeEventListener(("click"),findingValues);
         }
         else if(this.textContent == "="){
             display(); // dummy function just to remove the bottom ans
@@ -51,24 +59,23 @@ function findingValues(){
             operator = this.textContent;
             finalAns = ans;
             num = "";
+            //adding "." again to new number -> adding the event listner
+            let btn = document.querySelector(".decimal")
+            btn.addEventListener(("click"),findingValues);
+
         }
     }else{
         num += this.textContent;
     }
 
-
     ans = Math.round(gettingValues(+finalAns,+num,operator) * 100000) / 100000;
     
-
-
     //array of operation
     allOperationsArr.push(new OneOperation(operation,operator,num,ans))
     console.table(allOperationsArr)
     display();
 
 }
-
-
 
 //objects for each step
 function OneOperation(operation,operator,num,ans){
@@ -89,6 +96,7 @@ function display(){
     }
 }
 
+//for floats
 function dotButton(){
     operator = allOperationsArr[allOperationsArr.length - 1].operator;
     num = num + ".";
@@ -101,7 +109,37 @@ function dotButton(){
     ans = compare == 1 ? ans  : ans + ".";
     return (ans);
 }
-let operation = operator = num = ans = finalAns = "";
-allOperationsArr = [];
 
+//to remove one element
+function backspace(){
+    const backBtn = document.querySelector(".backspace");
+    backBtn.removeEventListener(("click"),findingValues);
+    backBtn.addEventListener(("click"), function(){
+        allOperationsArr.pop();
+        if(!allOperationsArr.length){
+            reset();
+        }else{
+            operation = allOperationsArr[allOperationsArr.length - 1].operation;
+            operator = allOperationsArr[allOperationsArr.length - 1].operator;
+            num = allOperationsArr[allOperationsArr.length - 1].num;
+            ans = allOperationsArr[allOperationsArr.length - 1].ans;
+            display();
+        }
+    });
+
+}
+
+
+//repeating code cause i dont know to how delacre global vaiarables -_-
+function reset(){
+    operation = operator = num = ans = finalAns = "";
+    allOperationsArr = [];
+    document.querySelector(".topAns").textContent = "";
+    document.querySelector(".bottomAns").textContent = "";
+
+}
+
+
+let operation = operator = num = ans = finalAns = "";
+let allOperationsArr = [];
 operate();
