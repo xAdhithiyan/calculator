@@ -25,10 +25,7 @@ function gettingValues(x,y,op = ""){
             return ans;
             break;
         case ".":
-            operator = allOperationsArr[allOperationsArr.length - 1].operator;
-            num = num + ".";
-            ans = ans + ".";
-            return (ans);
+            return dotButton();
             break;
     }
 }
@@ -45,7 +42,6 @@ function findingValues(){
     if(!(+this.textContent == +this.textContent)){
         if(this.textContent == "."){
             operator = ".";
-            finalAns = ans;
         }
         else if(this.textContent == "="){
             operation = finalAns = num = ans;
@@ -89,6 +85,18 @@ function display(){
 
 }
 
+function dotButton(){
+    operator = allOperationsArr[allOperationsArr.length - 1].operator;
+    num = num + ".";
+    let compare = 0;
+    for(let i = 0 ; i< ans.toString().length;i++){
+        if(ans.toString()[i] == "."){
+            compare = 1; 
+        }
+    }
+    ans = compare == 1 ? ans  : ans + ".";
+    return (ans);
+}
 let operation = operator = num = ans = finalAns = "";
 allOperationsArr = [];
 
