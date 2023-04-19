@@ -74,6 +74,7 @@ function findingValues(){
     allOperationsArr.push(new OneOperation(operation,operator,num,ans))
     console.table(allOperationsArr)
     display();
+    changingDisplay();
 
 }
 
@@ -124,6 +125,7 @@ function backspace(){
             num = allOperationsArr[allOperationsArr.length - 1].num;
             ans = allOperationsArr[allOperationsArr.length - 1].ans;
             display();
+            changingDisplay();
         }
     });
 
@@ -139,7 +141,34 @@ function reset(){
 
 }
 
+//to increase display size
+function changingDisplay(){
+    const topAns = document.querySelector(".topAns");
+    const altDisplay = document.querySelector(".display")
+    console.log(topAns.textContent.length);
+    console.log(topAns.classList.value.length)
 
+    if(topAns.textContent.length > 11){
+        topAns.classList.add("altTopAns")
+        altDisplay.classList.add("altDisplay")
+        if(topAns.textContent.length > 22){
+            topAns.classList.remove("altTopAns")
+            altDisplay.classList.remove("altDisplay")
+            topAns.classList.add("altTopAns2")
+            altDisplay.classList.add("altDisplay2")
+        }else{
+            topAns.classList.remove("altTopAns2")
+            altDisplay.classList.remove("altDisplay2")
+        }
+    }else{
+        topAns.classList.remove("altTopAns")
+        altDisplay.classList.remove("altDisplay")
+        topAns.classList.remove("altTopAns2")
+        altDisplay.classList.remove("altDisplay2")
+    }
+    
+}
 let operation = operator = num = ans = finalAns = "";
 let allOperationsArr = [];
 operate();
+

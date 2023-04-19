@@ -45,7 +45,7 @@ button{
     height:150px;
     padding:15px;
     text-align: right;
-
+    overflow-wrap: break-word;
 }
 
 .row1{
@@ -63,4 +63,22 @@ button{
 }
 .clear{
     width: 129px;
+}
+
+
+.altDisplay{
+    margin-top:150px;
+    height: 200px
+}
+.altTopAns{
+    height:100px;
+}
+
+.altDisplay2{
+    margin-top:100px;
+    height:250px;
+
+}
+.altTopAns2{
+    height:150px;
 }
