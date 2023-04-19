@@ -29,16 +29,70 @@ function gettingValues(x,y,op = ""){
             break;
     }
 }
+function numpadValues(exp){
+    switch(exp){
+        case "+":
+            return "+";
+            break;
+        case "-":
+            return "-";
+            break;
+        case "*":
+            return "x";
+            break;
+        case "/":
+            return "/";
+            break;
+        case "^":
+            return "^";
+            break;
+        case "Enter":
+            return "=";
+            break;
+        case ".":
+            if(!num.includes(".")){return "."}
+            else{return ""}
+            break;
+        case "Escape":
+            reset();
+            return "";
+            break;
+        case "Backspace":
+            backspace();
+            return "";
+            break;
+        default:
+            return "";
+            break;
+    }
+}
 
 function operate(){
     const btns = document.querySelectorAll("button");
     btns.forEach((n) => n.addEventListener(("click"),findingValues));
-    backspace();
+
+    //for numpad
+    window.addEventListener("keydown",function(n){
+        if(+n.key || n.key ==0){
+            this.textContent = n.key;
+        }else{
+            this.textContent = numpadValues(n.key)
+        }
+
+        if(this.textContent){
+            findingValues();
+        }
+    })
+
+    
     //to clear the window
     document.querySelector(".clear").removeEventListener("click",findingValues);
     document.querySelector(".clear").addEventListener("click",reset);
-
+    //to remove one element
+    document.querySelector(".backspace").removeEventListener(("click"),findingValues);
+    document.querySelector(".backspace").addEventListener(("click"),backspace);
 }
+
 
 //getting each step and passing it to an array of objects
 function findingValues(){
@@ -50,11 +104,15 @@ function findingValues(){
             //only able to use the "." once -> removing the event listener
             let btn = document.querySelector(".decimal")
             btn.removeEventListener(("click"),findingValues);
-        }
-        else if(this.textContent == "="){
+        }else if(this.textContent == "="){
             display(); // dummy function just to remove the bottom ans
             operation = finalAns = num = ans;
             operator = "=";
+
+            //only able to use the "." once at the starting> removing the event listener
+            let btn = document.querySelector(".decimal")
+            if(ans.toString().includes(".")){btn.removeEventListener(("click"),findingValues);}
+            else{btn.addEventListener(("click"),findingValues)}
         }else{
             operator = this.textContent;
             finalAns = ans;
@@ -113,21 +171,17 @@ function dotButton(){
 
 //to remove one element
 function backspace(){
-    const backBtn = document.querySelector(".backspace");
-    backBtn.removeEventListener(("click"),findingValues);
-    backBtn.addEventListener(("click"), function(){
-        allOperationsArr.pop();
-        if(!allOperationsArr.length){
-            reset();
-        }else{
-            operation = allOperationsArr[allOperationsArr.length - 1].operation;
-            operator = allOperationsArr[allOperationsArr.length - 1].operator;
-            num = allOperationsArr[allOperationsArr.length - 1].num;
-            ans = allOperationsArr[allOperationsArr.length - 1].ans;
-            display();
-            changingDisplay();
-        }
-    });
+    allOperationsArr.pop();
+    if(!allOperationsArr.length){
+        reset();
+    }else{
+        operation = allOperationsArr[allOperationsArr.length - 1].operation;
+        operator = allOperationsArr[allOperationsArr.length - 1].operator;
+        num = allOperationsArr[allOperationsArr.length - 1].num;
+        ans = allOperationsArr[allOperationsArr.length - 1].ans;
+        display();
+        changingDisplay();
+    }
 
 }
 
@@ -139,15 +193,17 @@ function reset(){
     document.querySelector(".topAns").textContent = "";
     document.querySelector(".bottomAns").textContent = "";
 
+    //only able to use the "." once at the starting> removing the event listener
+    let btn = document.querySelector(".decimal")
+    if(ans.toString().includes(".")){btn.removeEventListener(("click"),findingValues);}
+    else{btn.addEventListener(("click"),findingValues)}
+
 }
 
 //to increase display size
 function changingDisplay(){
     const topAns = document.querySelector(".topAns");
     const altDisplay = document.querySelector(".display")
-    console.log(topAns.textContent.length);
-    console.log(topAns.classList.value.length)
-
     if(topAns.textContent.length > 11){
         topAns.classList.add("altTopAns")
         altDisplay.classList.add("altDisplay")
