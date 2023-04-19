@@ -61,6 +61,9 @@ function numpadValues(exp){
             backspace();
             return "";
             break;
+        case " ":
+            return "";
+            break;
         default:
             return "";
             break;
@@ -73,6 +76,7 @@ function operate(){
 
     //for numpad
     window.addEventListener("keydown",function(n){
+        console.log(n.key)
         if(+n.key || n.key ==0){
             this.textContent = n.key;
         }else{
@@ -129,7 +133,9 @@ function findingValues(){
     ans = Math.round(gettingValues(+finalAns,+num,operator) * 100000) / 100000;
     
     //to avoid repetation of operator
-    if(!num && !allOperationsArr[allOperationsArr.length - 1].num){
+    if(!allOperationsArr.length){
+        console.log()
+    }else if(!num && !allOperationsArr[allOperationsArr.length - 1].num){
         operation = operation.substring(0,operation.length-2) + operation.substring(operation.length-1,operation.length);
     }
 
@@ -188,6 +194,12 @@ function backspace(){
         changingDisplay();
     }
 
+    //only able to use the "." once at the starting> removing the event listener
+    let btn = document.querySelector(".decimal")
+    if(ans.toString().includes(".")){btn.removeEventListener(("click"),findingValues);}
+    else{btn.addEventListener(("click"),findingValues)}
+
+
 }
 
 
@@ -209,23 +221,31 @@ function reset(){
 function changingDisplay(){
     const topAns = document.querySelector(".topAns");
     const altDisplay = document.querySelector(".display")
-    if(topAns.textContent.length > 11){
+    const main = document.querySelector(".main")
+    if(topAns.textContent.length > 12){
         topAns.classList.add("altTopAns")
         altDisplay.classList.add("altDisplay")
-        if(topAns.textContent.length > 22){
+        main.classList.add("altMain")
+        if(topAns.textContent.length > 24){
             topAns.classList.remove("altTopAns")
             altDisplay.classList.remove("altDisplay")
+            main.classList.remove("altMain")
+
             topAns.classList.add("altTopAns2")
             altDisplay.classList.add("altDisplay2")
+            main.classList.add("altMain2")
         }else{
             topAns.classList.remove("altTopAns2")
             altDisplay.classList.remove("altDisplay2")
+            main.classList.remove("altMain2")
         }
     }else{
         topAns.classList.remove("altTopAns")
         altDisplay.classList.remove("altDisplay")
         topAns.classList.remove("altTopAns2")
         altDisplay.classList.remove("altDisplay2")
+        main.classList.remove("altMain")
+        main.classList.remove("altMain2")
     }    
 }
 let operation = operator = num = ans = finalAns = "";
