@@ -128,6 +128,11 @@ function findingValues(){
 
     ans = Math.round(gettingValues(+finalAns,+num,operator) * 100000) / 100000;
     
+    //to avoid repetation of operator
+    if(!num && !allOperationsArr[allOperationsArr.length - 1].num){
+        operation = operation.substring(0,operation.length-2) + operation.substring(operation.length-1,operation.length);
+    }
+
     //array of operation
     allOperationsArr.push(new OneOperation(operation,operator,num,ans))
     console.table(allOperationsArr)
@@ -221,8 +226,7 @@ function changingDisplay(){
         altDisplay.classList.remove("altDisplay")
         topAns.classList.remove("altTopAns2")
         altDisplay.classList.remove("altDisplay2")
-    }
-    
+    }    
 }
 let operation = operator = num = ans = finalAns = "";
 let allOperationsArr = [];
