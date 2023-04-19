@@ -131,14 +131,27 @@ button:active{
     font-size:18px;
     background-color: #1B1B1B;
     color:#BEAFE6;
-    text-align: center;
     width: 100%;
     padding:5px;
     position:fixed;
     left:0;
     bottom:0;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    
 }   
+img{    
+    margin-left:8px;
+    background-color: #1B1B1B;
+}
 img:hover{
     transform: rotate(720deg);
     transition-duration: 1000ms;
+}
+a{
+    text-decoration: none;
+    background-color: #1B1B1B;
+    color:#BEAFE6;
+
 }
