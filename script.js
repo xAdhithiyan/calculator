@@ -22,6 +22,7 @@ function gettingValues(x,y,op = ""){
             break;
         case "=":
             operator = "";
+            backspaceRES = 1;
             return ans;
             break;
         case ".":
@@ -50,6 +51,7 @@ function numpadValues(exp){
             return "=";
             break;
         case ".":
+            num = num.toString();
             if(!num.includes(".")){return "."}
             else{return ""}
             break;
@@ -76,7 +78,6 @@ function operate(){
 
     //for numpad
     window.addEventListener("keydown",function(n){
-        console.log(n.key)
         if(+n.key || n.key ==0){
             this.textContent = n.key;
         }else{
@@ -144,6 +145,11 @@ function findingValues(){
     console.table(allOperationsArr)
     display();
     changingDisplay();
+
+    if(backspaceRES){
+        backspaceReset();
+    }
+
 
 }
 
@@ -248,6 +254,27 @@ function changingDisplay(){
         main.classList.remove("altMain2")
     }    
 }
+
+//for reseting backspace area when "=" is pressed
+function backspaceReset(){
+    allOperationsArr = [allOperationsArr[allOperationsArr.length - 1]]
+    let len = operation.toString().length;
+    for(let i=0; i < len - 1; i++){
+        operation = num = ans = operation.toString().substring(0,operation.toString().length - 1) 
+        allOperationsArr.unshift(new OneOperation(operation,operator,num,ans))
+    }
+    operation = num = ans = +allOperationsArr[allOperationsArr.length - 1].operation;
+    backspaceRES = 0;
+
+    console.log(ans)
+    //only able to use the "." once at the starting> removing the event listener
+    let btn = document.querySelector(".decimal")
+    if(ans.toString().includes(".")){btn.removeEventListener(("click"),findingValues);}
+    else{btn.addEventListener(("click"),findingValues)}
+
+}
+
+let backspaceRES = 0;
 let operation = operator = num = ans = finalAns = "";
 let allOperationsArr = [];
 operate();
