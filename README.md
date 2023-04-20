@@ -1,8 +1,8 @@
 # calculator
 ## Links
--[Visit the website](https://xadhithiyan.github.io/calculator/)
+- [Visit the website](https://xadhithiyan.github.io/calculator/)
 
--[Link to the assignment](https://www.theodinproject.com/lessons/foundations-calculator)
+- [Link to the assignment](https://www.theodinproject.com/lessons/foundations-calculator)
 
 ## About
 A calculator made for an assignment in the course The Odin Project. Concepts of objects,eventListeners,DOM manipulation were used
