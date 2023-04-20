@@ -142,7 +142,6 @@ function findingValues(){
 
     //array of operation
     allOperationsArr.push(new OneOperation(operation,operator,num,ans))
-    console.table(allOperationsArr)
     display();
     changingDisplay();
 
@@ -266,7 +265,6 @@ function backspaceReset(){
     operation = num = ans = +allOperationsArr[allOperationsArr.length - 1].operation;
     backspaceRES = 0;
 
-    console.log(ans)
     //only able to use the "." once at the starting> removing the event listener
     let btn = document.querySelector(".decimal")
     if(ans.toString().includes(".")){btn.removeEventListener(("click"),findingValues);}
